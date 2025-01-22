@@ -1,0 +1,25 @@
+
+#shammerUI {
+    animation: shammerAnimation 2s linear infinite;
+    transition-behavior: smooth;
+    transition: ease-in-out;
+}
+
+@keyframes shammerAnimation {
+    0% {
+        transform: rotate(0deg);
+
+    }   
+    50% {
+        background-color: #060911;
+        /* transform: rotate(1deg); */
+
+    }
+
+    50% {
+        background-color: #020617;
+        /* transform: rotate(-1deg); */
+
+
+    }
+}
