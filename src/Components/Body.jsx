@@ -2,16 +2,17 @@ import React, { useState , useEffect } from "react";
 import Hero from "./Hero";
 import ShimmerUI from "./ShimmerUI";
 import { TfiTarget } from "react-icons/tfi";
-const Body = ({onGameClick}) => {
+import { Link } from "react-router-dom";
+const Body = () => {
 
   const filterData = (userQuary , allGamesData) => {
       return allGamesData.filter((game) => game?.title?.toLowerCase()?.includes(userQuary?.toLowerCase()))
   }
   const[loading , setLoading] = useState(true)
-  const[fun , setFun] = useState(false);
   const [filterGames , setFilterGames] = useState([]);
   const [games , setGames] = useState([]);
   const [searchText , setSearchText] = useState("");
+
   const inputHandler = (event) => {
       setSearchText(event.target.value);
       setFun(true)
@@ -48,13 +49,7 @@ const Body = ({onGameClick}) => {
   // const newGamesData = gamesData.slice(0 , 10+2)
   // console.log(newGamesData)
 
-  const [gameId , setGameId] = useState(null);
-  useEffect(() => {
-    const filteredGameData = games.filter((game) => {
-      return game.id === gameId;
-    })
-    onGameClick(filteredGameData)
-  },[gameId])
+
 
     return  (
         <div className="w-full h-auto my-20 flex justify-evenly flex-wrap gap-20 px-4 lg:px-0 ">
@@ -75,9 +70,8 @@ const Body = ({onGameClick}) => {
            {
             (loading === true) ? <ShimmerUI /> :(
               filterGames.map((game) => (
-                <div key={game.id} onClick={ () => {setGameId(game.id)} }>
-                    <div  className='w-full lg:w-[420px] h-auto bg-slate-900 rounded-2xl shadow-md'>
-                        
+                <Link to={"/GameMenu/"+game.id}><div key={game.id}>
+                    <div key={game.id} className='w-full lg:w-[420px] h-auto bg-slate-900 rounded-2xl shadow-md'>
                         {
                             game.thumbnail !== "" ? <img className="rounded-t-2xl w-full" alt="game image" src={game.thumbnail}></img> : "Fuck"
                         }
@@ -99,7 +93,7 @@ const Body = ({onGameClick}) => {
                         </button>
                     </div>
                 </div>
-              </div>
+              </div></Link>
               )))
            }
         </div>

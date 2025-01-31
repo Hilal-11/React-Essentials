@@ -24,21 +24,16 @@ export const App = () => {
   }
 
 
-  const [c_game , set_c_game] = useState(null);
-    function newRecevedGame(clickedGame) {
-      set_c_game(clickedGame)
-    }
-
   return (
-    (!isLoged) ? (
-      <SignUp signUpSignal={receiveSignUpSignal}/>
-    ) :
-    (
-      !isLoading ? (
-        <div className='w-full h-svh bg-slate-950 text-white flex justify-center items-center '>
-          <Atom color="#ffffff" size="large" text="" textColor="#NaNNaNNaN" />
-        </div>
-      ) : (
+    // (!isLoged) ? (
+    //   <SignUp signUpSignal={receiveSignUpSignal}/>
+    // ) :
+    // (
+    //   !isLoading ? (
+    //     <div className='w-full h-svh bg-slate-950 text-white flex justify-center items-center '>
+    //       <Atom color="#ffffff" size="large" text="" textColor="#NaNNaNNaN" />
+    //     </div>
+    //   ) : (
         <div className='bg-slate-950 h-auto text-white'>
         <div className="">
             <Header />
@@ -46,20 +41,18 @@ export const App = () => {
       <Routes>
         <Route path='/' element={
             <div className="">
-                <Body onGameClick={newRecevedGame}/>
+                <Body/>
             </div>   
         }></Route>
         <Route path='MobileGames' element={<MobileGames />}></Route>
         <Route path='PcGames' element={<PcGames />}></Route>
         <Route path='ConsoleGames' element={<ConsoleGames />}></Route>
         <Route path='Simulations' element={<Simulations />}></Route>
-        <Route path='GameMenu/:id' element={<GameMenu paramsGame={c_game}/>}></Route>
+        <Route path='/GameMenu/:gameid' element={<GameMenu/>}></Route>
 
       </Routes>
       <Footer />
     </div>
       )
 
-    )
-  )
 }
