@@ -3,19 +3,21 @@ import Hero from "./Hero";
 import ShimmerUI from "./ShimmerUI";
 import { TfiTarget } from "react-icons/tfi";
 import { Link } from "react-router-dom";
+import { filterData } from '../utils/searchHelper'
+import useGamesBody from '../utils/useGamesBody'
+import useOnline from "../utils/useOnline";
+import offline from './offline.png'
+import OfflinePage from "./Pages/OfflinePage";
 const Body = () => {
-
-  const filterData = (userQuary , allGamesData) => {
-      return allGamesData.filter((game) => game?.title?.toLowerCase()?.includes(userQuary?.toLowerCase()))
-  }
-  const[loading , setLoading] = useState(true)
+  // const[loading , setLoading] = useState(true)
+  const checkOnline = useOnline();
+  console.log(checkOnline)
+  const gamesDataFromCustomHook = useGamesBody();
   const [filterGames , setFilterGames] = useState([]);
   const [games , setGames] = useState([]);
   const [searchText , setSearchText] = useState("");
-
   const inputHandler = (event) => {
       setSearchText(event.target.value);
-      setFun(true)
   }
   const searchHandler = () => {
     if(searchText !== ""){
@@ -25,33 +27,12 @@ const Body = () => {
       alert("...")
     }
   }
-
-
   useEffect(() => {
-    setLoading(true)
-    fetch("https://www.freetogame.com/api/games")
-      .then((response) => {
-        return response.json()
-      })
-      .then((data) => {
-        setLoading(false)
-        setFilterGames(data);
-        setGames(data)     
-
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  },[])
-
-
-  // const length = gamesData.length / 10+2;
-  // const newGamesData = gamesData.slice(0 , 10+2)
-  // console.log(newGamesData)
-
-
-
+    setFilterGames(gamesDataFromCustomHook);
+    setGames(gamesDataFromCustomHook);
+  },[gamesDataFromCustomHook])
     return  (
+      (!checkOnline) ? (<OfflinePage />) : (
         <div className="w-full h-auto my-20 flex justify-evenly flex-wrap gap-20 px-4 lg:px-0 ">
           <Hero/>
           <div className="relative text-center w-full ">
@@ -65,10 +46,9 @@ const Body = () => {
                 <button className="relative text-3xl lg:top-2 lg:-left-16 lg:px-2 lg:py-2 rounded-lg shadow-inner bg-slate-950" 
                 onClick={ searchHandler }
                 ><TfiTarget className=" animate-spin text-red-800 hover:animate-none" /></button>
-              
           </div>
            {
-            (loading === true) ? <ShimmerUI /> :(
+            // (loading === true) ? <ShimmerUI /> :(
               filterGames.map((game) => (
                 <Link to={"/GameMenu/"+game.id}><div key={game.id}>
                     <div key={game.id} className='w-full lg:w-[420px] h-auto bg-slate-900 rounded-2xl shadow-md'>
@@ -94,9 +74,10 @@ const Body = () => {
                     </div>
                 </div>
               </div></Link>
-              )))
+              ))
            }
         </div>
+      )
     )
 }
 export default Body;

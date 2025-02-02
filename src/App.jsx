@@ -25,15 +25,15 @@ export const App = () => {
 
 
   return (
-    // (!isLoged) ? (
-    //   <SignUp signUpSignal={receiveSignUpSignal}/>
-    // ) :
-    // (
-    //   !isLoading ? (
-    //     <div className='w-full h-svh bg-slate-950 text-white flex justify-center items-center '>
-    //       <Atom color="#ffffff" size="large" text="" textColor="#NaNNaNNaN" />
-    //     </div>
-    //   ) : (
+    (!isLoged) ? (
+      <SignUp signUpSignal={receiveSignUpSignal}/>
+    ) :
+    (
+      !isLoading ? (
+        <div className='w-full h-svh bg-slate-950 text-white flex justify-center items-center '>
+          <Atom color="#ffffff" size="large" text="" textColor="#NaNNaNNaN" />
+        </div>
+      ) : (
         <div className='bg-slate-950 h-auto text-white'>
         <div className="">
             <Header />
@@ -44,15 +44,16 @@ export const App = () => {
                 <Body/>
             </div>   
         }></Route>
+        <Route path='/GameMenu/:gameid' element={<GameMenu/>}></Route>
         <Route path='MobileGames' element={<MobileGames />}></Route>
         <Route path='PcGames' element={<PcGames />}></Route>
         <Route path='ConsoleGames' element={<ConsoleGames />}></Route>
         <Route path='Simulations' element={<Simulations />}></Route>
-        <Route path='/GameMenu/:gameid' element={<GameMenu/>}></Route>
 
       </Routes>
       <Footer />
     </div>
       )
-
+    )
+  )
 }

@@ -1,27 +1,17 @@
-import React, { useEffect , useState } from "react";
 import { useParams } from "react-router-dom";
+import useGamesMenu from "../../utils/useGamesMenu";
 import ShimmerUI from "../ShimmerUI";
 const GameMenu = () => {
     const { gameid } = useParams();
-    const [gameMenu , setGameMunu] = useState({});
-    useEffect(() => {
-        getGameMenuInfo();
-    }, [])
-
-    const getGameMenuInfo = async () => {
-       try {
-        const data = await fetch("https://www.freetogame.com/api/game?id="+gameid)
-        const response = await data.json();
-        setGameMunu(response);
-       }catch (err ) {
-            console.log(err);
-       }
+    const gameMenu = useGamesMenu(gameid);
+    console.log(gameMenu)
+    if(!gameid) {
+        return <ShimmerUI />
     }
-
     return  (
-        <div className="w-full h-auto px-10 py-10">
+        gameMenu && <div className="w-full h-auto px-10 py-10">
             <div className="bg-slate-800 rounded-xl shadow-2xl shadow-black ">
-                <div><img className="rounded-xl w-full" src={gameMenu.thumbnail} alt="" /></div>
+                <div><img className="rounded-xl w-full" src={gameMenu.thumbnail} alt="Fuck Error!!!" /></div>
             </div>
             <div className="py-5 text-5xl font-extrabold text-blue-700">
                 <h1 className="text-center">{gameMenu.title}</h1>
