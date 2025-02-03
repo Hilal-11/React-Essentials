@@ -6,13 +6,14 @@ import { Link } from "react-router-dom";
 import { filterData } from '../utils/searchHelper'
 import useGamesBody from '../utils/useGamesBody'
 import useOnline from "../utils/useOnline";
-import offline from './offline.png'
 import OfflinePage from "./Pages/OfflinePage";
 const Body = () => {
-  // const[loading , setLoading] = useState(true)
+
   const checkOnline = useOnline();
-  console.log(checkOnline)
   const gamesDataFromCustomHook = useGamesBody();
+  // console.log(gamesDataFromCustomHook)
+  // console.log(loading)
+
   const [filterGames , setFilterGames] = useState([]);
   const [games , setGames] = useState([]);
   const [searchText , setSearchText] = useState("");
@@ -28,11 +29,22 @@ const Body = () => {
     }
   }
   useEffect(() => {
-    setFilterGames(gamesDataFromCustomHook);
-    setGames(gamesDataFromCustomHook);
+    if(Array.isArray(gamesDataFromCustomHook)) {
+      setFilterGames(gamesDataFromCustomHook);
+      setGames(gamesDataFromCustomHook);
+    }
   },[gamesDataFromCustomHook])
+
+  // useEffect(() => {
+  //     setFilterGames(gamesDataFromCustomHook);
+  //     setGames(gamesDataFromCustomHook);
+  // },[gamesDataFromCustomHook])
+
+  console.log(filterGames);
+
     return  (
       (!checkOnline) ? (<OfflinePage />) : (
+      
         <div className="w-full h-auto my-20 flex justify-evenly flex-wrap gap-20 px-4 lg:px-0 ">
           <Hero/>
           <div className="relative text-center w-full ">
@@ -48,7 +60,7 @@ const Body = () => {
                 ><TfiTarget className=" animate-spin text-red-800 hover:animate-none" /></button>
           </div>
            {
-            // (loading === true) ? <ShimmerUI /> :(
+            // loading ? (<ShimmerUI />) :(
               filterGames.map((game) => (
                 <Link to={"/GameMenu/"+game.id}><div key={game.id}>
                     <div key={game.id} className='w-full lg:w-[420px] h-auto bg-slate-900 rounded-2xl shadow-md'>
@@ -78,6 +90,7 @@ const Body = () => {
            }
         </div>
       )
+    
     )
 }
 export default Body;

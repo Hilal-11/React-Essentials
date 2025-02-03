@@ -4,7 +4,6 @@ import ShimmerUI from "../ShimmerUI";
 const GameMenu = () => {
     const { gameid } = useParams();
     const gameMenu = useGamesMenu(gameid);
-    console.log(gameMenu)
     if(!gameid) {
         return <ShimmerUI />
     }
