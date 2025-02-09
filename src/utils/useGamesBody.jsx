@@ -1,5 +1,4 @@
 import { useState , useEffect } from 'react'
-
 const useGamesBody = () => {
     const [loading , setLoading] = useState(true)
     const [gamesData , setGamesData] = useState([]);
@@ -23,8 +22,7 @@ const useGamesBody = () => {
         };
         fetchGamedData();
     } , []);
-    console.log(gamesData , loading)
-    return gamesData;
+    return [loading , gamesData];
 };
 
 export default useGamesBody

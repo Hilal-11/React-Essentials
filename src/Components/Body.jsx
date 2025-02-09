@@ -10,17 +10,14 @@ import OfflinePage from "./Pages/OfflinePage";
 const Body = () => {
 
   const checkOnline = useOnline();
-  const gamesDataFromCustomHook = useGamesBody();
-  // console.log(gamesDataFromCustomHook)
-  // console.log(loading)
-
+  const [loading , gamesDataFromCustomHook] = useGamesBody();
   const [filterGames , setFilterGames] = useState([]);
   const [games , setGames] = useState([]);
   const [searchText , setSearchText] = useState("");
   const inputHandler = (event) => {
       setSearchText(event.target.value);
   }
-  const searchHandler = () => {
+  const searchHandler = () => { 
     if(searchText !== ""){
       const newSearchGames = filterData(searchText , games)
       setFilterGames(newSearchGames);
@@ -34,14 +31,6 @@ const Body = () => {
       setGames(gamesDataFromCustomHook);
     }
   },[gamesDataFromCustomHook])
-
-  // useEffect(() => {
-  //     setFilterGames(gamesDataFromCustomHook);
-  //     setGames(gamesDataFromCustomHook);
-  // },[gamesDataFromCustomHook])
-
-  console.log(filterGames);
-
     return  (
       (!checkOnline) ? (<OfflinePage />) : (
       
@@ -60,10 +49,10 @@ const Body = () => {
                 ><TfiTarget className=" animate-spin text-red-800 hover:animate-none" /></button>
           </div>
            {
-            // loading ? (<ShimmerUI />) :(
+            (loading) ? (<ShimmerUI />) : (
               filterGames.map((game) => (
-                <Link to={"/GameMenu/"+game.id}><div key={game.id}>
-                    <div key={game.id} className='w-full lg:w-[420px] h-auto bg-slate-900 rounded-2xl shadow-md'>
+                <Link key={game.id} to={"/GameMenu/"+game.id}><div>
+                    <div className='w-full lg:w-[420px] h-auto bg-slate-900 rounded-2xl shadow-md'>
                         {
                             game.thumbnail !== "" ? <img className="rounded-t-2xl w-full" alt="game image" src={game.thumbnail}></img> : "Fuck"
                         }
@@ -87,7 +76,7 @@ const Body = () => {
                 </div>
               </div></Link>
               ))
-           }
+           )}
         </div>
       )
     

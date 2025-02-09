@@ -22,8 +22,6 @@ export const App = () => {
         setIsLoading(true)
       },Math.floor(Math.random() * 1000))
   }
-
-
   return (
     (!isLoged) ? (
       <SignUp signUpSignal={receiveSignUpSignal}/>
