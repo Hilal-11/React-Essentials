@@ -8,7 +8,6 @@ import useGamesBody from '../utils/useGamesBody'
 import useOnline from "../utils/useOnline";
 import OfflinePage from "./Pages/OfflinePage";
 const Body = () => {
-
   const checkOnline = useOnline();
   const [loading , gamesDataFromCustomHook] = useGamesBody();
   const [filterGames , setFilterGames] = useState([]);

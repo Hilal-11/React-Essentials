@@ -1,16 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React, { lazy, Suspense , useEffect, useState } from 'react'
 import Body from './Components/Body'
 import Header from './Components/Header'
 import Footer from './Components/Footer'
-import MobileGames from './Components/Pages/MobileGames'
-import PcGames from './Components/Pages/PcGames'
-import ConsoleGames from './Components/Pages/ConsoleGames'
-import Simulations from './Components/Pages/Simulations'
+
+// import MobileGames from './Components/Pages/MobileGames'
+// import PcGames from './Components/Pages/PcGames'
+// import ConsoleGames from './Components/Pages/ConsoleGames'
+// import Simulations from './Components/Pages/Simulations'
+
 import { Routes , Route } from 'react-router-dom'
 import SignUp from './Components/Auth/SignUp'
 import GameMenu from './Components/Pages/GameMenu'
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { Atom } from 'react-loading-indicators'
+import ShimmerUI from './Components/ShimmerUI'
+
+// Lazy loading or demand paging
+
+const MobileGames = lazy(() => import("./Components/Pages/MobileGames"));
+const PcGames = lazy(() => import('./Components/Pages/PcGames'));
+const ConsoleGames = lazy(() => import('./Components/Pages/ConsoleGames'))
+const Simulations = lazy(() => import("./Components/Pages/Simulations"));
+
+
 export const App = () => {
 
   const [isLoading , setIsLoading] = useState(false)
@@ -43,10 +55,10 @@ export const App = () => {
             </div>   
         }></Route>
         <Route path='/GameMenu/:gameid' element={<GameMenu/>}></Route>
-        <Route path='MobileGames' element={<MobileGames />}></Route>
-        <Route path='PcGames' element={<PcGames />}></Route>
-        <Route path='ConsoleGames' element={<ConsoleGames />}></Route>
-        <Route path='Simulations' element={<Simulations />}></Route>
+        <Route path='MobileGames' element={<Suspense fallback={<ShimmerUI />}><MobileGames /></Suspense>}></Route>
+        <Route path='PcGames' element={<Suspense fallback={<ShimmerUI />}><PcGames  /></Suspense>}></Route>
+        <Route path='Console' element={<Suspense fallback={<ShimmerUI />}><ConsoleGames /></Suspense>}></Route>
+        <Route path='Simulations' element={<Suspense fallback={<ShimmerUI />}><Simulations /></Suspense>}></Route>
 
       </Routes>
       <Footer />
