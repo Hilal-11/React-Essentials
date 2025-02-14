@@ -7,7 +7,9 @@ import { filterData } from '../utils/searchHelper'
 import useGamesBody from '../utils/useGamesBody'
 import useOnline from "../utils/useOnline";
 import OfflinePage from "./Pages/OfflinePage";
-const Body = () => {
+import Accordian from "./Pages/Accordian";
+
+const Body = ({user}) => {
   const checkOnline = useOnline();
   const [loading , gamesDataFromCustomHook] = useGamesBody();
   const [filterGames , setFilterGames] = useState([]);
@@ -30,11 +32,15 @@ const Body = () => {
       setGames(gamesDataFromCustomHook);
     }
   },[gamesDataFromCustomHook])
+
+
+
+
     return  (
       (!checkOnline) ? (<OfflinePage />) : (
-      
+      <div>
         <div className="w-full h-auto my-20 flex justify-evenly flex-wrap gap-20 px-4 lg:px-0 ">
-          <Hero/>
+            <Hero user={user}/>
           <div className="relative text-center w-full ">
             <input 
               type="text"
@@ -51,7 +57,7 @@ const Body = () => {
             (loading) ? (<ShimmerUI />) : (
               filterGames.map((game) => (
                 <Link key={game.id} to={"/GameMenu/"+game.id}><div>
-                    <div className='w-full lg:w-[420px] h-auto bg-slate-900 rounded-2xl shadow-md'>
+                    <div className='scroll_view_animation w-full lg:w-[420px] h-auto bg-slate-900 rounded-2xl shadow-md'>
                         {
                             game.thumbnail !== "" ? <img className="rounded-t-2xl w-full" alt="game image" src={game.thumbnail}></img> : "Fuck"
                         }
@@ -76,7 +82,15 @@ const Body = () => {
               </div></Link>
               ))
            )}
+
+           
         </div>
+      <div>
+        <Accordian />
+     </div>
+      <br /> <br /> <br />
+    </div>
+
       )
     
     )

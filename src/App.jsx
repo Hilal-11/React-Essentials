@@ -21,7 +21,10 @@ const MobileGames = lazy(() => import("./Components/Pages/MobileGames"));
 const PcGames = lazy(() => import('./Components/Pages/PcGames'));
 const ConsoleGames = lazy(() => import('./Components/Pages/ConsoleGames'))
 const Simulations = lazy(() => import("./Components/Pages/Simulations"));
+import UserContext from './utils/UserContext'
+import Store from './utils/Store'
 
+import { Provider } from 'react-redux'
 
 export const App = () => {
 
@@ -34,6 +37,18 @@ export const App = () => {
         setIsLoading(true)
       },Math.floor(Math.random() * 1000))
   }
+
+
+  // const [userText , setUserText] = useState(UserContext)
+   
+  const [user , setUser] = useState({
+    name : "Waseem Ahmad",
+    email : "Waseem123@gmai.com"
+  });
+
+
+
+
   return (
     (!isLoged) ? (
       <SignUp signUpSignal={receiveSignUpSignal}/>
@@ -44,25 +59,41 @@ export const App = () => {
           <Atom color="#ffffff" size="large" text="" textColor="#NaNNaNNaN" />
         </div>
       ) : (
-        <div className='bg-slate-950 h-auto text-white'>
-        <div className="">
-            <Header />
-        </div>
-      <Routes>
-        <Route path='/' element={
-            <div className="">
-                <Body/>
-            </div>   
-        }></Route>
-        <Route path='/GameMenu/:gameid' element={<GameMenu/>}></Route>
-        <Route path='MobileGames' element={<Suspense fallback={<ShimmerUI />}><MobileGames /></Suspense>}></Route>
-        <Route path='PcGames' element={<Suspense fallback={<ShimmerUI />}><PcGames  /></Suspense>}></Route>
-        <Route path='Console' element={<Suspense fallback={<ShimmerUI />}><ConsoleGames /></Suspense>}></Route>
-        <Route path='Simulations' element={<Suspense fallback={<ShimmerUI />}><Simulations /></Suspense>}></Route>
+        <>
+        <Provider store={Store}>
+            <UserContext.Provider value={{user : user}}>
+            <div className='bg-slate-950 h-auto text-white'>         
+                <div className="">
+                    <Header />
+                </div>
 
-      </Routes>
-      <Footer />
-    </div>
+                {/* <div>
+                  <input type="text" placeholder='Enter username :- ' onChange={(event) => setUserText(event.target.value) } value={userText}/>
+                  <input type="email" placeholder='Enter email :- ' onChange={(event) => setUserText(event.target.value) } value={userText}/>
+                </div> */}
+
+                <div>
+                  <Routes>
+                    <Route path='/GameMenu/:gameid' element={<GameMenu/>}></Route>
+                  </Routes>
+                </div>
+              <Routes>
+                <Route path='/' element={
+                    <div className="">
+                        <Body/>
+                    </div>   
+                }></Route>
+                
+                <Route path='MobileGames' element={<Suspense fallback={<ShimmerUI />}><MobileGames /></Suspense>}></Route>
+                <Route path='PcGames' element={<Suspense fallback={<ShimmerUI />}><PcGames  /></Suspense>}></Route>
+                <Route path='Console' element={<Suspense fallback={<ShimmerUI />}><ConsoleGames /></Suspense>}></Route>
+                <Route path='Simulations' element={<Suspense fallback={<ShimmerUI />}><Simulations /></Suspense>}></Route>
+              </Routes>
+              <Footer />
+          </div>
+        </UserContext.Provider>
+        </Provider>
+    </>
       )
     )
   )
