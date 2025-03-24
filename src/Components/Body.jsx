@@ -33,9 +33,6 @@ const Body = ({user}) => {
     }
   },[gamesDataFromCustomHook])
 
-
-
-
     return  (
       (!checkOnline) ? (<OfflinePage />) : (
       <div>
@@ -83,7 +80,6 @@ const Body = ({user}) => {
               ))
            )}
 
-           
         </div>
       <div>
         <Accordian />

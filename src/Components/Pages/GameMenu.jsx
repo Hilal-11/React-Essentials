@@ -1,12 +1,20 @@
 import { useParams } from "react-router-dom";
 import useGamesMenu from "../../utils/useGamesMenu";
 import ShimmerUI from "../ShimmerUI";
+import { addItem } from "../../utils/CartSlice";
+import { useDispatch } from 'react-redux'
 const GameMenu = () => {
     const { gameid } = useParams();
     const gameMenu = useGamesMenu(gameid);
     if(!gameid) {
         return <ShimmerUI />
     }
+
+    const dispatch = useDispatch();
+    const handleAddToWishlist = () => {
+        dispatch(addItem("PUBG"));
+    }
+
     return  (
         gameMenu && <div className="w-full h-auto px-10 py-10">
             <div className="bg-slate-800 rounded-xl shadow-2xl shadow-black ">
@@ -24,7 +32,12 @@ const GameMenu = () => {
                 <h2 className="bg-blue-400 px-2 py-2 rounded-xl">{gameMenu.platform}</h2>
             </div>
            <div className="flex justify-center py-6">
-                <a className="bg-slate-900 rounded-xl py-4 text-center w-full" href="https://www.freetogame.com/open/enlisted">Download</a>
+                <a className="bg-blue-600 rounded-xl py-4 text-center w-full" href="https://www.freetogame.com/open/enlisted">Download</a>
+           </div>
+           <div className="flex justify-center py-0">
+            <button className="bg-slate-900 rounded-xl py-4 text-center w-full font-bold text-red-500"
+                onClick={() => { handleAddToWishlist() }}
+            >Add Game to wishlist</button>
            </div>
         </div>
     )
