@@ -21,16 +21,15 @@
 
 // export default useGamesMenu
 
-
 import { useState, useEffect } from 'react';
 
 const useGamesMenu = (gameid) => {
-  const [gameMenu, setGameMenu] = useState('');
+  const [gameMenu, setGameMenu] = useState(null);
 
   useEffect(() => {
     const fetchGameMenu = async () => {
       try {
-        const response = await fetch(`https://www.freetogame.com/api/game?id=${gameid}`);
+        const response = await fetch(`http://localhost:4000/api/game?id=${gameid}`); // Use the backend API
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
